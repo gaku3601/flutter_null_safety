@@ -2,27 +2,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_null_safety/util/validatable.dart';
 
-class InputText extends StatefulWidget {
-  final GlobalKey<InputTextState>? key;
-  final String? label;
-  final String initValue;
+class InputTextController {
   final Validatable? validator;
   final bool isAutoValidation;
-  final void Function(String value) onChanged;
-  InputText({
-    this.key,
-    this.label,
-    this.initValue = '',
+  void Function() init;
+  InputTextController({
     this.validator,
-    required this.onChanged,
-    this.isAutoValidation = false,
-  });
+    this.isAutoValidation = true,
+    void Function()? init,
+  }) : this.init = init ?? (() {});
 
-  @override
-  InputTextState createState() => InputTextState();
+  late _InputTextState _inputTextState;
+
+  void _addState(_InputTextState customWidgetState) => this._inputTextState = customWidgetState;
+
+  bool validate() => _inputTextState.validate();
+
+  void setValue(String val) => _inputTextState.setValue(val);
 }
 
-class InputTextState extends State<InputText> {
+class InputText extends StatefulWidget {
+  final InputTextController controller;
+  final String? label;
+  final void Function(String value) onChanged;
+  InputText({
+    InputTextController? controller,
+    this.label,
+    required this.onChanged,
+  }) : this.controller = controller ?? InputTextController();
+
+  @override
+  _InputTextState createState() => _InputTextState();
+}
+
+class _InputTextState extends State<InputText> {
   String? _errorMessage;
   String _value = '';
   late TextEditingController _textEditingController;
@@ -30,23 +43,31 @@ class InputTextState extends State<InputText> {
   @override
   void initState() {
     super.initState();
-    _value = this.widget.initValue;
-    _textEditingController = new TextEditingController(text: this._value);
+    this.widget.controller._addState(this);
+    this.widget.controller.init();
+  }
+
+  /// 値をセットします
+  void setValue(String val) {
+    _value = val;
+    setState(() {
+      _textEditingController = new TextEditingController(text: this._value);
+    });
   }
 
   /// バリデーションを実施する
   bool validate() {
     setState(() {
-      this._errorMessage = this.widget.validator!.validate(this._value);
+      this._errorMessage = this.widget.controller.validator!.validate(this._value);
     });
     return this._errorMessage == null ? false : true;
   }
 
   /// 変更時の処理
-  void _onChanged(String value) {
+  void onChanged(String value) {
     this._value = value;
     this.widget.onChanged(_value);
-    if (this.widget.isAutoValidation) {
+    if (this.widget.controller.isAutoValidation) {
       this.validate();
     }
   }
@@ -55,7 +76,7 @@ class InputTextState extends State<InputText> {
   Widget build(BuildContext context) {
     return TextField(
       controller: this._textEditingController,
-      onChanged: this._onChanged,
+      onChanged: this.onChanged,
       decoration: InputDecoration(
         labelText: this.widget.label,
         errorText: this._errorMessage,

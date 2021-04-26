@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
-part of 'init_page_controller.dart';
+part of 'init_page_notifier.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -16,11 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$InitPageStateTearOff {
   const _$InitPageStateTearOff();
 
-  _InitPageState call(
-      {String accountName = 'account初期値', String comment = 'comment初期値'}) {
+  _InitPageState call({String accountName = 'account初期値'}) {
     return _InitPageState(
       accountName: accountName,
-      comment: comment,
     );
   }
 }
@@ -31,7 +29,6 @@ const $InitPageState = _$InitPageStateTearOff();
 /// @nodoc
 mixin _$InitPageState {
   String get accountName => throw _privateConstructorUsedError;
-  String get comment => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $InitPageStateCopyWith<InitPageState> get copyWith =>
@@ -43,7 +40,7 @@ abstract class $InitPageStateCopyWith<$Res> {
   factory $InitPageStateCopyWith(
           InitPageState value, $Res Function(InitPageState) then) =
       _$InitPageStateCopyWithImpl<$Res>;
-  $Res call({String accountName, String comment});
+  $Res call({String accountName});
 }
 
 /// @nodoc
@@ -58,16 +55,11 @@ class _$InitPageStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? accountName = freezed,
-    Object? comment = freezed,
   }) {
     return _then(_value.copyWith(
       accountName: accountName == freezed
           ? _value.accountName
           : accountName // ignore: cast_nullable_to_non_nullable
-              as String,
-      comment: comment == freezed
-          ? _value.comment
-          : comment // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -80,7 +72,7 @@ abstract class _$InitPageStateCopyWith<$Res>
           _InitPageState value, $Res Function(_InitPageState) then) =
       __$InitPageStateCopyWithImpl<$Res>;
   @override
-  $Res call({String accountName, String comment});
+  $Res call({String accountName});
 }
 
 /// @nodoc
@@ -97,16 +89,11 @@ class __$InitPageStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? accountName = freezed,
-    Object? comment = freezed,
   }) {
     return _then(_InitPageState(
       accountName: accountName == freezed
           ? _value.accountName
           : accountName // ignore: cast_nullable_to_non_nullable
-              as String,
-      comment: comment == freezed
-          ? _value.comment
-          : comment // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -115,19 +102,15 @@ class __$InitPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_InitPageState implements _InitPageState {
-  const _$_InitPageState(
-      {this.accountName = 'account初期値', this.comment = 'comment初期値'});
+  const _$_InitPageState({this.accountName = 'account初期値'});
 
   @JsonKey(defaultValue: 'account初期値')
   @override
   final String accountName;
-  @JsonKey(defaultValue: 'comment初期値')
-  @override
-  final String comment;
 
   @override
   String toString() {
-    return 'InitPageState(accountName: $accountName, comment: $comment)';
+    return 'InitPageState(accountName: $accountName)';
   }
 
   @override
@@ -136,16 +119,12 @@ class _$_InitPageState implements _InitPageState {
         (other is _InitPageState &&
             (identical(other.accountName, accountName) ||
                 const DeepCollectionEquality()
-                    .equals(other.accountName, accountName)) &&
-            (identical(other.comment, comment) ||
-                const DeepCollectionEquality().equals(other.comment, comment)));
+                    .equals(other.accountName, accountName)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(accountName) ^
-      const DeepCollectionEquality().hash(comment);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(accountName);
 
   @JsonKey(ignore: true)
   @override
@@ -154,13 +133,10 @@ class _$_InitPageState implements _InitPageState {
 }
 
 abstract class _InitPageState implements InitPageState {
-  const factory _InitPageState({String accountName, String comment}) =
-      _$_InitPageState;
+  const factory _InitPageState({String accountName}) = _$_InitPageState;
 
   @override
   String get accountName => throw _privateConstructorUsedError;
-  @override
-  String get comment => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$InitPageStateCopyWith<_InitPageState> get copyWith =>
