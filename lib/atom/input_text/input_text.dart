@@ -1,3 +1,4 @@
+/// StatefulWidgetを利用しGlobalKeyで内部関数にアクセスするパターン
 import 'package:flutter/material.dart';
 import 'package:flutter_null_safety/util/validatable.dart';
 

@@ -1,47 +1,52 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_null_safety/atom/input_text.dart';
+import 'package:flutter_null_safety/atom/input_text/input_text.dart';
+import 'package:flutter_null_safety/atom/input_textarea/input_textarea.dart';
 import 'package:flutter_null_safety/util/validatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
 
-class InitPageState {
-  final String accountName;
-  final String email;
+part 'init_page_controller.freezed.dart';
 
-  InitPageState({
-    this.accountName = '',
-    this.email = '',
-  });
-
-  InitPageState copyWith({String? accountName, String? email}) {
-    return InitPageState(
-      accountName: accountName ?? this.accountName,
-      email: email ?? this.email,
-    );
-  }
+@freezed
+abstract class InitPageState with _$InitPageState {
+  const factory InitPageState({
+    @Default('account初期値') String accountName,
+    @Default('comment初期値') String comment,
+  }) = _InitPageState;
 }
 
 class InitPageController extends StateNotifier<InitPageState> {
-  InitPageController() : super(InitPageState());
-
   GlobalKey<InputTextState> accountName = GlobalKey<InputTextState>();
-  GlobalKey<InputTextState> email = GlobalKey<InputTextState>();
+  late InputTextareaController commentController;
+
+  InitPageController() : super(InitPageState()) {
+    this.commentController = InputTextareaController(
+      validator: CommentValidator(),
+      isAutoValidation: true,
+      onChanged: this.onChangedComment,
+    )..setTextField(state.comment);
+  }
+
+  void changeComment() {
+    this.commentController.setTextField('change comment!');
+  }
 
   void onChangedAccountName(String value) {
     state = state.copyWith(accountName: value);
   }
 
-  void onChangedEmail(String value) {
-    state = state.copyWith(email: value);
+  void onChangedComment(String value) {
+    state = state.copyWith(comment: value);
   }
 
   void post() {
     bool accountNameValidResult = this.accountName.currentState!.validate();
-    bool emailValidResult = this.email.currentState!.validate();
-    if (accountNameValidResult || emailValidResult) {
+    bool commentValidResult = this.commentController.validate();
+    if (accountNameValidResult || commentValidResult) {
       print('errorがあります！');
       return;
     }
-    print('accountName: ${state.accountName}');
+    print('accountName: ${state.accountName}, comment: ${this.commentController.state.value}');
     print('posted!');
   }
 }
@@ -56,7 +61,7 @@ class AccountNameValidator implements Validatable {
   }
 }
 
-class EmailValidator implements Validatable {
+class CommentValidator implements Validatable {
   @override
   String? validate(String value) {
     if (value.isEmpty) {
