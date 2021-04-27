@@ -1,4 +1,5 @@
 import 'package:flutter_null_safety/atom/input_text/input_text.dart';
+import 'package:flutter_null_safety/repository/post_repository/post_repository.dart';
 import 'package:flutter_null_safety/util/validatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,10 +15,11 @@ abstract class InitPageState with _$InitPageState {
 
 class InitPageNotifier extends StateNotifier<InitPageState> {
   InputTextController accountNameController = InputTextController(validator: AccountNameValidator());
+  final ProviderReference ref;
 
-  InitPageNotifier() : super(InitPageState()) {
+  InitPageNotifier(this.ref) : super(InitPageState()) {
     accountNameController.init = () {
-      accountNameController.setValue('val');
+      accountNameController.setValue(state.accountName);
     };
   }
 
@@ -26,6 +28,7 @@ class InitPageNotifier extends StateNotifier<InitPageState> {
   }
 
   void resetAccountNameField() {
+    state = state.copyWith(accountName: 'reset');
     this.accountNameController.setValue('reset');
   }
 
@@ -35,8 +38,7 @@ class InitPageNotifier extends StateNotifier<InitPageState> {
       print('errorがあります！');
       return;
     }
-    print('accountName: ${state.accountName}');
-    print('posted!');
+    this.ref.read(postRepositoryProvider).create(Post(accountName: this.state.accountName));
   }
 }
 

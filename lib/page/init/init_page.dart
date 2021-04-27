@@ -3,7 +3,7 @@ import 'package:flutter_null_safety/atom/input_text/input_text.dart';
 import 'package:flutter_null_safety/page/init/init_page_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final initPageProvider = StateNotifierProvider<InitPageNotifier, InitPageState>((_) => InitPageNotifier());
+final initPageProvider = StateNotifierProvider<InitPageNotifier, InitPageState>((ref) => InitPageNotifier(ref));
 
 class InitPage extends ConsumerWidget {
   @override
